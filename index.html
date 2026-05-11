@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Educajf - Inicio</title>
+    <!-- Imagen de la pestaña -->
+    <link rel="shortcut icon" href="img/PRINCIPAL.jpg" type="image/x-icon">
+    <link rel="icon" type="image/jpeg" href="img/PRINCIPAL.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Librería para serpentinas -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="contenedor">
+        <!-- Logo con tamaño controlado -->
+        <img src="img/PRINCIPAL.jpg" alt="Logotipo Educajf" style="width: 250px; height: auto; margin-bottom: 20px;">
+        
+        <h1>¡Bienvenido!</h1>
+        
+        <p>Escribe tu nombre:</p>
+        <input type="text" id="nombreEstudiante" placeholder="Tu nombre aquí...">
+
+        <h3>Selecciona tu Avatar:</h3>
+        <div class="grid-avatares">
+            <!-- Avatares con tamaño controlado directamente -->
+            <img src="img/avatar1.jpg" class="avatar-opcion" onclick="seleccionarAvatar(this, 'img/avatar1.jpg')" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 4px solid #ccc; margin: 5px;">
+            <img src="img/avatar2.jpg" class="avatar-opcion" onclick="seleccionarAvatar(this, 'img/avatar2.jpg')" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 4px solid #ccc; margin: 5px;">
+            <img src="img/avatar3.jpg" class="avatar-opcion" onclick="seleccionarAvatar(this, 'img/avatar3.jpg')" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 4px solid #ccc; margin: 5px;">
+            <img src="img/avatar4.jpg" class="avatar-opcion" onclick="seleccionarAvatar(this, 'img/avatar4.jpg')" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 4px solid #ccc; margin: 5px;">
+            <img src="img/avatar5.jpg" class="avatar-opcion" onclick="seleccionarAvatar(this, 'img/avatar5.jpg')" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 4px solid #ccc; margin: 5px;">
+            <img src="img/avatar6.gif" class="avatar-opcion" onclick="seleccionarAvatar(this, 'img/avatar6.gif')" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; cursor: pointer; border: 4px solid #ccc; margin: 5px;">
+        </div>
+
+        <br>
+        <button onclick="validarIngreso()">Ingresar</button>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

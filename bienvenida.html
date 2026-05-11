@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido - Educafg</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="contenedor">
+        <h1 id="saludoBienvenida">¡Hola!</h1>
+        
+        <!-- Aquí se mostrará el avatar que eligió el niño -->
+        <img id="avatarMostrado" src="" alt="Tu Avatar">
+        
+        <p style="font-size: 1.5rem;">¿Estás listo para aprender los números?</p>
+        
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <!-- Botón para ir al juego (Actividad 2) -->
+            <button onclick="window.location.href='actividad1.html'" style="background: #51cf66;">¡Comenzar!</button>
+            
+            <!-- Botón para salir -->
+            <button onclick="cerrarSesion()" style="background: #ff4d4d;">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script>
+        // Recuperar datos del localStorage
+        const nombre = localStorage.getItem("nombreUsuario");
+        const avatar = localStorage.getItem("avatarUsuario");
+
+        if (nombre && avatar) {
+            document.getElementById('saludoBienvenida').innerText = `¡Hola, ${nombre}!`;
+            document.getElementById('avatarMostrado').src = avatar;
+        }
+
+        function cerrarSesion() {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

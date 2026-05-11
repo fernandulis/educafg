@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aprendamos a contar - Actividad 1</title>
+    <!-- Criterio 1: Favicon corregido -->
+    <link rel="shortcut icon" href="img/PRINCIPAL.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/stylejuego.css">
+    <!-- Librería externa para el confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="contenedor">
+        <!-- Criterio 3: Título claro con spans individuales -->
+        <h1 id="titulo-interactivo" class="titulo-voz">
+            <span class="palabra-normal">Aprendamos</span>
+            <span class="palabra-normal">a</span>
+            <span class="palabra-normal">contar</span>
+            <span class="palabra-normal">del</span>
+            <span class="palabra-normal">1</span>
+            <span class="palabra-normal">al</span>
+            <span class="palabra-normal">10</span>
+        </h1>
+        
+        <!-- Criterio 2 y 12: Área de visualización -->
+        <div id="contenedor-manzanas">
+            <p id="mensaje-ayuda">¡Haz clic en un número para ver las manzanas!</p>
+        </div>
+
+        <!-- Criterio 4: Grid de botones interactivos -->
+        <div class="grid-numeros">
+            <button class="btn-numero" onclick="presionarNumero(1)">1</button>
+            <button class="btn-numero" onclick="presionarNumero(2)">2</button>
+            <button class="btn-numero" onclick="presionarNumero(3)">3</button>
+            <button class="btn-numero" onclick="presionarNumero(4)">4</button>
+            <button class="btn-numero" onclick="presionarNumero(5)">5</button>
+            <button class="btn-numero" onclick="presionarNumero(6)">6</button>
+            <button class="btn-numero" onclick="presionarNumero(7)">7</button>
+            <button class="btn-numero" onclick="presionarNumero(8)">8</button>
+            <button class="btn-numero" onclick="presionarNumero(9)">9</button>
+            <button class="btn-numero" onclick="presionarNumero(10)">10</button>
+        </div>
+
+        <br>
+        <!-- Criterio 5: Botón de acción -->
+        <button id="btnFinalizar" onclick="terminarJuego()" style="display: none;">¡Ya aprendí todos! 🌟</button>
+    </div>
+
+    <!-- Solo necesitamos juego1texto.js ahora, ya que unificamos las funciones allí -->
+    <script src="js/juego1texto.js"></script>
+</body>
+</html>

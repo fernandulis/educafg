@@ -1,0 +1,93 @@
+/* --- 1. ESTILOS DEL TÍTULO (Lo que arregla el color rojo) --- */
+.titulo-voz {
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 2; /* Espacio para que no choquen al crecer */
+}
+
+.palabra-normal {
+    display: inline-block;
+    font-size: 2.2rem;
+    color: #1a4a9e; /* Azul Disney */
+    transition: all 0.2s ease;
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.palabra-activa {
+    color: #ff0000 !important; /* Rojo Mickey */
+    transform: scale(1.3) !important; /* Crece para resaltar */
+    text-decoration: underline !important;
+}
+
+/* --- 2. CONTENEDOR DE MANZANAS --- */
+#contenedor-manzanas {
+    min-height: 180px; /* Un poco más de espacio */
+    background: #ffffff;
+    border: 5px dashed #ffcc00; /* Amarillo Disney */
+    border-radius: 25px;
+    padding: 20px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 90%;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* --- 3. LA MANZANA (Para que no se estire) --- */
+.manzana-animada {
+    width: 65px;
+    height: 65px;
+    object-fit: contain; /* Mantiene la forma original de la manzana */
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+    animation: saltarManzana 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes saltarManzana {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- 4. BOTONES NUMÉRICOS --- */
+.grid-numeros {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.btn-numero {
+    background: #ffcc00;
+    color: #000;
+    font-size: 2rem;
+    font-weight: bold;
+    border: 4px solid #1a4a9e;
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #b38f00;
+    transition: 0.1s;
+}
+
+.btn-numero:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #b38f00;
+}
+
+/* --- 5. BOTÓN FINALIZAR --- */
+#btnFinalizar {
+    background: #51cf66; /* Verde éxito */
+    color: white;
+    font-size: 1.5rem;
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: 3px solid #000;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
