@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Felicitaciones! - Educajf</title>
+    <link rel="shortcut icon" href="img/PRINCIPAL.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Estilos específicos para la animación de estrellas de la rúbrica */
+        .pantalla-final {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 30px;
+            border: 6px solid #ffcc00;
+            max-width: 600px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .titulo-final {
+            color: #ff4d4d;
+            font-size: 3rem;
+            text-shadow: 2px 2px 0px #000;
+            margin-bottom: 20px;
+            font-family: 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        /* Animación de Estrellas (Exigencia Punto 23 de la rúbrica) */
+        .contenedor-estrellas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .estrella {
+            font-size: 4rem;
+            color: #ffcc00;
+            text-shadow: 2px 2px 0px #b38f00;
+            display: inline-block;
+            animation: brillar 1s ease-in-out infinite alternate;
+        }
+
+        /* Tiempos desfasados para que las estrellas bailen de forma asíncrona */
+        .estrella:nth-child(2) { animation-delay: 0.3s; }
+        .estrella:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes brillar {
+            0% { transform: scale(0.8) rotate(-5deg); opacity: 0.6; }
+            100% { transform: scale(1.2) rotate(5deg); opacity: 1; filter: drop-shadow(0 0 15px #ffcc00); }
+        }
+
+        .btn-volver {
+            background: #51cf66;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #3b944c;
+            transition: all 0.1s ease;
+        }
+        
+        .btn-volver:active { 
+            transform: translateY(5px); 
+            box-shadow: none; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pantalla-final">
+        <h1 class="titulo-final">¡Lo Lograste!</h1>
+        
+        <div class="contenedor-estrellas">
+            <span class="estrella">⭐</span>
+            <span class="estrella">⭐</span>
+            <span class="estrella">⭐</span>
+        </div>
+
+        <p id="mensaje-felicitacion" style="font-size: 1.8rem; font-weight: bold; color: #1a4a9e; font-family: sans-serif;">
+            ¡Eres un experto contando y ordenando números!
+        </p>
+
+        <br><br>
+        <button class="btn-volver" onclick="window.location.href='bienvenida.html'">
+            Jugar de Nuevo 🎮
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Audio de logro al finalizar el juego
+            const audioLogro = new Audio('sonido/logro.mp3');
+            audioLogro.play().catch(() => {
+                console.log("El navegador bloqueó el autoplay del audio, se reproducirá al interactuar.");
+            });
+
+            // 2. Mensaje de voz personalizado (Variable corregida sin espacios)
+            const nombre = localStorage.getItem("nombreUsuario") || "amiguito";
+            window.speechSynthesis.cancel(); // Limpiar colas de voz anteriores
+            
+            const mensajeVivaVoz = new SpeechSynthesisUtterance(`¡Muchas felicidades ${nombre}! Completaste todo el juego a la perfección. ¡Eres genial!`);
+            mensajeVivaVoz.lang = 'es-MX';
+            mensajeVivaVoz.rate = 0.95;
+            window.speechSynthesis.speak(mensajeVivaVoz);
+
+            // 3. Efecto visual de confetti continuo (Celebración de victoria)
+            var duracion = 3 * 1000; // Duración de ráfagas (3 segundos)
+            var fin = Date.now() + duracion;
+
+            (function lanzarConfetti() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+
+                if (Date.now() < fin) {
+                    requestAnimationFrame(lanzarConfetti);
+                }
+            }());
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Línea de Tiempo - Educajf</title>
+    <link rel="shortcut icon" href="img/PRINCIPAL.jpg" type="image/x-icon">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/stylejuego2.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1 id="titulo-interactivo" class="titulo-voz" style="cursor: pointer;">
+            <span class="palabra-normal">¡Ordena</span>
+            <span class="palabra-normal">los</span>
+            <span class="palabra-normal">números</span>
+            <span class="palabra-normal">en</span>
+            <span class="palabra-normal">la</span>
+            <span class="palabra-normal">línea!</span>
+        </h1>
+
+        <div id="linea-tiempo"></div>
+        
+        <p style="font-weight: bold; color: #1a4a9e; font-family: sans-serif; text-align: center;">
+            Pon todos los números en la línea. ¡Al completarla sabrás si tu secuencia es correcta!
+        </p>
+        
+        <div id="numeros-disponibles"></div>
+
+        <br>
+        <div style="display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 10px;">
+            
+            <button id="btnFinalizar" onclick="avanzarPantallaFinal()" style="display: none; background: #51cf66; font-size: 1.3rem; padding: 12px 25px; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #3b944c;">
+                Terminar Juego ➡️
+            </button>
+            
+            <button onclick="reiniciarLinea()" style="background: #ff4d4d; color: white; border: none; font-size: 1rem; padding: 10px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #c92a2a;">
+                Reiniciar
+            </button>
+        </div>
+    </div>
+
+    <script src="js/juego2.js"></script>
+</body>
+</html>
