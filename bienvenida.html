@@ -9,17 +9,23 @@
     <div class="contenedor">
         <h1 id="saludoBienvenida">¡Hola!</h1>
         
-        <!-- Aquí se mostrará el avatar que eligió el niño -->
         <img id="avatarMostrado" src="" alt="Tu Avatar">
         
         <p style="font-size: 1.5rem;">¿Estás listo para aprender los números?</p>
         
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <!-- Botón para ir al juego (Actividad 2) -->
-            <button onclick="window.location.href='actividad1.html'" style="background: #51cf66;">¡Comenzar!</button>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
             
-            <!-- Botón para salir -->
-            <button onclick="cerrarSesion()" style="background: #ff4d4d;">Cerrar Sesión</button>
+            <button onclick="window.location.href='actividad1.html'" style="background: #51cf66; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #3b944c;">
+                ¡Comenzar! 🎮
+            </button>
+            
+            <button onclick="window.location.href='todos.html'" style="background: #1a4a9e; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #11326b;">
+                Ver Actividades 📚
+            </button>
+            
+            <button onclick="cerrarSesion()" style="background: #ff4d4d; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #c23b3b;">
+                Cerrar Sesión ❌
+            </button>
         </div>
     </div>
 

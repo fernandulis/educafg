@@ -1,0 +1,257 @@
+/* ======================================================== */
+/* ESTILOS INTERFAZ DISNEY PARA LA ACTIVIDAD 8 Y FINAL      */
+/* ======================================================== */
+
+body {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    background: #001a4d; /* Fondo azul noche de Disney */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.contenedor-principal {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 30px;
+    border: 8px solid #ff0000; /* Borde rojo Mickey */
+    text-align: center;
+    width: 95%;
+    max-width: 780px;
+    box-sizing: border-box;
+    box-shadow: 0 0 25px #ffcc00; /* Resplandor amarillo mágico */
+}
+
+.subtitulo-fijo {
+    color: #ff0000;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.titulo-karaoke-cajero {
+    font-size: 1.35rem;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    cursor: pointer;
+    user-select: none;
+}
+
+.titulo-karaoke-cajero .palabra-normal {
+    display: inline-block;
+    margin: 1px 2px;
+    padding: 2px 4px;
+    border-radius: 6px;
+    color: #ff0000;
+    transition: all 0.1s ease;
+    font-weight: bold;
+}
+
+/* Estado activo del Karaoke sincronizado por voz */
+.titulo-karaoke-cajero .palabra-activa {
+    color: #ffffff !important;
+    background: #1a4a9e !important;
+    box-shadow: 0 0 6px #ffcc00;
+}
+
+/* Estilo de la pizarra de cobro */
+.pizarra-caja {
+    background: #f8fafc;
+    border: 3px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 540px;
+}
+
+.monto-total {
+    font-size: 1.6rem;
+    color: #001a4d;
+    font-weight: bold;
+}
+.monto-total span { color: #1a4a9e; }
+
+.monto-actual {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #64748b;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+#suma-pago { color: #22c55e; }
+
+/* Caja de soltado de dinero */
+.caja-receptora-billetes {
+    border: 4px dashed #1a4a9e;
+    background: #f0f4f8;
+    border-radius: 15px;
+    padding: 30px 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #1a4a9e;
+    transition: all 0.2s ease;
+    min-height: 40px;
+}
+
+.caja-receptora-billetes.hovered {
+    background: #e1eaf7;
+    transform: scale(1.02);
+}
+
+.instruccion-banco {
+    font-size: 1.1rem;
+    color: #64748b;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Contenedores de dinero general */
+.banco-efectivo {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+/* Fichas de Billetes */
+.billete-chile {
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: grab;
+    border: 3px solid rgba(0,0,0,0.15);
+    box-shadow: 0 4px 0px rgba(0,0,0,0.1);
+    transition: transform 0.1s;
+    user-select: none;
+}
+.billete-chile:active { cursor: grabbing; }
+
+/* Colores de los billetes */
+.b-5000 { background: #fca5a5; color: #b91c1c; }
+.b-2000 { background: #86efac; color: #15803d; }
+.b-1000 { background: #cbd5e1; color: #475569; }
+
+/* Fichas de Monedas Circulares */
+.moneda-chile {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: grab;
+    border: 3px solid rgba(0,0,0,0.18);
+    box-shadow: 0 4px 0px rgba(0,0,0,0.15);
+    transition: transform 0.1s;
+    user-select: none;
+}
+.moneda-chile:active { cursor: grabbing; }
+
+/* Colores de Monedas según denominación chilena */
+.m-500 { background: #fcd34d; color: #78350f; border-color: #b45309; } /* Dorada con borde grueso aluminio */
+.m-100 { background: #e2e8f0; color: #334155; border-color: #94a3b8; } /* Plateada clásica */
+.m-50  { background: #fbbf24; color: #78350f; }                         /* Dorada */
+.m-10  { background: #f59e0b; color: #451a03; }                         /* Dorada pequeña */
+.m-5   { background: #fed7aa; color: #7c2d12; }                         /* Cobriza grande */
+.m-1   { background: #ffedd5; color: #7c2d12; }                         /* Cobriza pequeña */
+
+.btn-limpiar-caja {
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    padding: 8px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #64748b;
+    margin-top: 15px;
+}
+
+.btn-accion-sgte {
+    display: block;
+    margin: 25px auto 0 auto;
+    background: #ffcc00;
+    font-size: 1.5rem;
+    padding: 12px 50px;
+    border-radius: 50px;
+    border: 3px solid #000;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 0px #b38f00;
+}
+
+/* Ajustes decorativos para la pantalla final.html */
+.pantalla-celebracion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.gran-corona-oro {
+    font-size: 5rem;
+    margin: 0;
+    animation: flotar 2s ease-in-out infinite;
+}
+.texto-felicitacion {
+    color: #1a4a9e;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.parrafo-final {
+    font-size: 1.3rem;
+    color: #64748b;
+    line-height: 1.5;
+}
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+/* ======================================================== */
+/* CONTROL DE PUNTAJE SUPERIOR DERECHO (REQUERIMIENTO RÚBRICA) */
+/* ======================================================== */
+
+.marcador-puntos-superior {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    background: #ffffff;
+    border: 4px solid #ff0000; /* Rojo Mickey */
+    padding: 10px 18px;
+    border-radius: 18px;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #ff0000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 999; /* Asegura que flote por encima de cualquier otro elemento */
+    animation: pulsoMarcador 2s infinite alternate;
+}
+
+/* Animación sutil estilo Disney para que el marcador llame la atención de los niños */
+@keyframes pulsoMarcador {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.04); box-shadow: 0 5px 20px rgba(255, 204, 0, 0.6); }
+}
+
+/* Ajuste adaptativo para pantallas más pequeñas (como tablets en el laboratorio) */
+@media (max-width: 768px) {
+    .marcador-puntos-superior {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin: 10px auto;
+        width: fit-content;
+    }
+}

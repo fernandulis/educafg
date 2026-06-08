@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const linea = document.getElementById('linea-tiempo');
-    const disponibles = document.getElementById('numeros-disponibles');
-    const spans = document.querySelectorAll('.palabra-normal');
+    const banco = document.getElementById('numeros-disponibles');
+    const spans = document.querySelectorAll('#texto-karaoke .palabra-normal');
+    const txtMarcadorPts = document.getElementById('marcador-pts');
+    
+    // El orden correcto original (Precios de menor a mayor)
+    const numsCorrectos = [1200, 3500, 5800, 7400, 9900];
 
-    // Secuencia del 1 al 10
-    const reto = [
-        {n: 1, fijo: true}, {n: 2, fijo: false}, {n: 3, fijo: true}, 
-        {n: 4, fijo: false}, {n: 5, fijo: false}, {n: 6, fijo: false},
-        {n: 7, fijo: true}, {n: 8, fijo: false}, {n: 9, fijo: false}, {n: 10, fijo: true}
-    ];
+    // RECUPERAMOS LOS PUNTOS QUE VIENEN DE LA MOCHILA (ACTIVIDAD 1)
+    let puntajeAcumulado = parseInt(localStorage.getItem('puntajeGlobal') || '0', 10);
 
     function hablar(texto) {
         window.speechSynthesis.cancel();
@@ -17,171 +17,179 @@ document.addEventListener('DOMContentLoaded', () => {
         window.speechSynthesis.speak(msg);
     }
 
-    // Animación del título
-    function animarTitulo() {
-        hablar("¡Ordena los números en la línea!");
-        spans.forEach((s, i) => {
-            setTimeout(() => {
-                spans.forEach(p => p.classList.remove('palabra-activa'));
-                s.classList.add('palabra-activa');
-            }, i * 450);
-        });
-        setTimeout(() => spans.forEach(p => p.classList.remove('palabra-activa')), 4000);
-    }
-
-    document.getElementById('titulo-interactivo').onclick = animarTitulo;
-    setTimeout(animarTitulo, 1000);
-
-    // FUNCIÓN PARA CREAR LOS CÍRCULOS ARRASTRABLES
-    window.crearCirculoDisponible = function(num) {
-        // Evitamos duplicados en el banco de abajo por seguridad
-        const existente = document.getElementById(`drag-banco-${num}`);
-        if (existente) existente.remove();
-
-        const drag = document.createElement('div');
-        drag.className = 'drag-numero';
-        drag.id = `drag-banco-${num}`;
-        drag.innerText = num;
-        drag.draggable = true;
-        
-        drag.ondragstart = (e) => {
-            hablar(num); 
-            e.dataTransfer.setData("text", num);
-            e.dataTransfer.setData("origen", "banco");
-        };
-        
-        disponibles.appendChild(drag);
-    }
-
-    // FUNCIÓN PARA MEZCLAR Y RESETEAR TODO DESDE CERO (SOLUCIÓN AL BUG)
-    window.revolverTodoDesdeCero = function() {
-        const vacios = document.querySelectorAll('.vacio');
-        vacios.forEach(div => {
-            div.innerText = "";
-            div.dataset.current = ""; // SOLUCIÓN: Limpiamos por completo la memoria interna
-            div.draggable = false;
-            div.style.background = "white";
-            div.style.color = "black";
-            div.style.borderColor = "#ff4d4d";
-            div.classList.remove('error-final');
-        });
-
-        disponibles.innerHTML = '';
-
-        let numerosFaltantes = reto.filter(i => !i.fijo).map(item => item.n);
-        numerosFaltantes.sort(() => Math.random() - 0.5);
-
-        numerosFaltantes.forEach(num => crearCirculoDisponible(num));
-    }
-
-    // DIBUJAR LA LÍNEA DE TIEMPO
-    reto.forEach(item => {
-        const div = document.createElement('div');
-        div.className = `espacio-numero ${item.fijo ? 'fijo' : 'vacio'}`;
-        
-        if (item.fijo) {
-            div.innerText = item.n;
-            div.onclick = () => hablar(item.n);
-        } else {
-            div.dataset.target = item.n;
-            div.dataset.current = "";
-
-            div.ondragover = (e) => e.preventDefault();
-            div.ondragenter = () => div.classList.add('hovered');
-            div.ondragleave = () => div.classList.remove('hovered');
-            
-            div.ondragstart = (e) => {
-                hablar(div.dataset.current);
-                e.dataTransfer.setData("text", div.dataset.current);
-                e.dataTransfer.setData("origen", "cuadro");
-                div.classList.add('dragging-from'); 
-            };
-
-            div.ondrop = (e) => {
-                e.preventDefault();
-                div.classList.remove('hovered');
-                
-                const valorEntrante = e.dataTransfer.getData("text");
-                const origen = e.dataTransfer.getData("origen");
-
-                if (div.dataset.current !== "" && div.dataset.current !== valorEntrante) {
-                    crearCirculoDisponible(div.dataset.current);
-                }
-
-                if (origen === "cuadro") {
-                    const celdaOrigen = document.querySelector('.dragging-from');
-                    if (celdaOrigen) {
-                        celdaOrigen.innerText = "";
-                        celdaOrigen.dataset.current = "";
-                        celdaOrigen.draggable = false;
-                        celdaOrigen.style.background = "white";
-                        celdaOrigen.classList.remove('dragging-from');
-                    }
-                } else {
-                    const draggables = document.querySelectorAll('#numeros-disponibles .drag-numero');
-                    draggables.forEach(d => { if(d.innerText == valorEntrante) d.remove(); });
-                }
-
-                div.innerText = valorEntrante;
-                div.dataset.current = valorEntrante;
-                div.draggable = true; 
-                div.onclick = () => hablar(valorEntrante);
-
-                verificarLineaAlCompletar();
-            };
+    // Actualiza el texto flotante superior derecho
+    function actualizarMarcadorVisual() {
+        if (txtMarcadorPts) {
+            txtMarcadorPts.innerText = `${puntajeAcumulado} Pts`;
         }
-        linea.appendChild(div);
-    });
+    }
 
-    let numerosIniciales = reto.filter(i => !i.fijo).map(item => item.n);
-    numerosIniciales.sort(() => Math.random() - 0.5);
-    numerosIniciales.forEach(num => crearCirculoDisponible(num));
+    // Inicializamos mostrando el puntaje que arrastramos en la pantalla
+    actualizarMarcadorVisual();
 
-    function verificarLineaAlCompletar() {
-        const vacios = document.querySelectorAll('.vacio');
-        const lineaLlena = Array.from(vacios).every(div => div.dataset.current !== "");
+    // Sistema de Karaoke por Tiempos (Sincronización fija sin alterar el diseño)
+    function animarTitulo() {
+        window.speechSynthesis.cancel();
         
-        if (!lineaLlena) return;
+        const textoCompleto = "Ordena estos precios de cuatro cifras en la línea.";
+        const msg = new SpeechSynthesisUtterance(textoCompleto);
+        msg.lang = 'es-MX';
+        msg.rate = 0.85; 
 
-        let errores = 0;
-        vacios.forEach(div => {
-            if (div.dataset.current != div.dataset.target) {
-                div.style.background = "#ffcccc"; 
-                div.classList.add('error-final'); 
-                errores++;
+        const retrasos = [0, 600, 1100, 1600, 2000, 2600, 3200, 3500, 3800];
+
+        spans.forEach(s => s.classList.remove('palabra-activa'));
+
+        spans.forEach((span, indice) => {
+            setTimeout(() => {
+                if (window.speechSynthesis.speaking) {
+                    spans.forEach(s => s.classList.remove('palabra-activa'));
+                    if (span) span.classList.add('palabra-activa');
+                }
+            }, retrasos[indice]);
+        });
+
+        msg.onend = () => {
+            spans.forEach(s => s.classList.remove('palabra-activa'));
+        };
+
+        window.speechSynthesis.speak(msg);
+    }
+
+    const titulo = document.getElementById('texto-karaoke');
+    if (titulo) titulo.onclick = animarTitulo;
+
+    // FUNCIÓN PARA DIBUJAR TODO EL TABLERO UTILIZANDO NODOS DINÁMICOS
+    function inicializarJuego() {
+        if (linea) {
+            linea.innerHTML = ''; 
+            numsCorrectos.forEach((n, i) => {
+                const divCasilla = document.createElement('div'); 
+                divCasilla.className = 'espacio-numero vacio'; 
+                divCasilla.innerText = '???'; 
+                divCasilla.dataset.idx = i;
+                
+                divCasilla.ondragover = e => e.preventDefault(); 
+                divCasilla.ondragenter = () => divCasilla.classList.add('hovered');
+                divCasilla.ondragleave = () => divCasilla.classList.remove('hovered');
+                divCasilla.ondrop = dropEnCasilla; 
+                
+                linea.appendChild(divCasilla);
+            });
+        }
+
+        if (banco) {
+            banco.innerHTML = ''; 
+            banco.ondragover = e => e.preventDefault();
+            banco.ondrop = dropEnBanco;
+
+            [...numsCorrectos].sort(() => Math.random() - 0.5).forEach((n, index) => {
+                const dragFicha = document.createElement('div'); 
+                dragFicha.className = 'drag-numero'; 
+                dragFicha.draggable = true; 
+                dragFicha.innerText = n;
+                dragFicha.id = `ficha-${n}-${index}`; 
+                dragFicha.dataset.valor = n;
+                
+                dragFicha.ondragstart = e => {
+                    hablar(n);
+                    e.dataTransfer.setData("text/plain", dragFicha.id);
+                };
+                banco.appendChild(dragFicha);
+            });
+        }
+        
+        const btn = document.getElementById('btnSig');
+        if (btn) btn.style.display = 'none';
+    }
+
+    function dropEnCasilla(e) {
+        e.preventDefault();
+        let destino = e.target;
+        if (destino.classList.contains('drag-numero')) {
+            return;
+        }
+
+        destino.classList.remove('hovered');
+        const idFicha = e.dataTransfer.getData("text/plain");
+        const ficha = document.getElementById(idFicha);
+        
+        if (ficha) {
+            destino.innerText = '';
+            destino.className = 'espacio-numero ocupado';
+            destino.appendChild(ficha);
+            evaluarProgresoJuego();
+        }
+    }
+
+    function dropEnBanco(e) {
+        e.preventDefault();
+        const idFicha = e.dataTransfer.getData("text/plain");
+        const ficha = document.getElementById(idFicha);
+        
+        if (ficha) {
+            banco.appendChild(ficha);
+            evaluarProgresoJuego();
+        }
+    }
+
+    function evaluarProgresoJuego() {
+        const casillas = document.querySelectorAll('#linea-tiempo .espacio-numero');
+        let casillasLlenas = 0;
+        let aciertosTotales = 0;
+
+        casillas.forEach((casilla, i) => {
+            const fichaInterna = casilla.querySelector('.drag-numero');
+            
+            if (fichaInterna) {
+                casillasLlenas++;
+                if (parseInt(fichaInterna.dataset.valor, 10) === numsCorrectos[i]) {
+                    aciertosTotales++;
+                }
             } else {
-                div.style.background = "#51cf66"; 
-                div.style.color = "white";
+                casilla.className = 'espacio-numero vacio';
+                casilla.innerText = '???';
             }
         });
 
-        if (errores === 0) {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            const audioLogro = new Audio('sonido/logro.mp3');
-            audioLogro.play().catch(() => {});
+        if (casillasLlenas === 5) {
+            casillas.forEach((casilla, i) => {
+                const fichaInterna = casilla.querySelector('.drag-numero');
+                if (parseInt(fichaInterna.dataset.valor, 10) === numsCorrectos[i]) {
+                    casilla.className = 'espacio-numero casilla-correcta';
+                } else {
+                    casilla.className = 'espacio-numero casilla-incorrecta';
+                }
+            });
 
-            hablar("¡Increíble! Ordenaste todos los números muy bien. ¡Presiona avanzar!");
+            if (aciertosTotales === 5) {
+                // ¡GANÓ EL NIVEL 2! Sumamos 100 Pts más al total acumulado
+                puntajeAcumulado += 100;
+                actualizarMarcadorVisual();
 
-            // Mostramos el botón de avanzar
-            const btn = document.getElementById('btnFinalizar');
-            if (btn) btn.style.display = 'inline-block';
+                // Guardamos el nuevo valor total en la mochila virtual
+                localStorage.setItem('puntajeGlobal', puntajeAcumulado.toString());
 
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                }
+                const btn = document.getElementById('btnSig');
+                if (btn) btn.style.display = 'inline-block';
+                hablar('¡Increíble! Ordenaste todos los precios de cuatro cifras a la perfección.');
+            } else {
+                // Penalización por error (-10 Pts) siempre que el pozo no quede en negativo
+                if (puntajeAcumulado >= 10) puntajeAcumulado -= 10;
+                actualizarMarcadorVisual();
+                localStorage.setItem('puntajeGlobal', puntajeAcumulado.toString());
+
+                hablar("Te equivocaste en algunos números. ¡Revisa tu línea y cambia las tarjetas que desees!");
+            }
         } else {
-            const audioError = new Audio('sonido/error.mp3');
-            audioError.play().catch(() => hablar("¡Oh, no! Te has equivocado en la secuencia. ¡Vamos a intentarlo desde el principio!"));
-
-            setTimeout(() => {
-                revolverTodoDesdeCero();
-            }, 2000);
+            const btn = document.getElementById('btnSig');
+            if (btn) btn.style.display = 'none';
         }
     }
+
+    inicializarJuego();
+    setTimeout(animarTitulo, 800);
 });
-
-function reiniciarLinea() {
-    location.reload(); 
-}
-
-// CORRECCIÓN CONEXIÓN BOTÓN: Esta función ahora coincide exactamente con el HTML
-function avanzarPantallaFinal() {
-    window.location.href = "final.html";
-}

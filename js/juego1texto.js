@@ -99,9 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Seguridad por si falla la síntesis de voz
         setTimeout(() => {
-            if(!window.location.href.includes("actividad2")) {
-                window.location.href = "actividad2.html";
+            if(!window.location.href.includes("actividad1")) {
+                window.location.href = "actividad1.html";
             }
         }, 6000);
     };
 });
+// BUSCA ESTO AL FINAL DE TU JS/JUEGO1.JS Y DÉJALO ASÍ:
+function avanzarPantallaFinal() {
+    window.location.href = "actividad2.html"; // <-- Aquí debe decir actividad2.html, NO juego2.html
+}

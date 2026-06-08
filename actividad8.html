@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actividad 8 - El Cajero del Almacén (Súper Desafío)</title>
+    <link rel="stylesheet" href="css/stylejuego8.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="js/juego8.js" defer></script>
+</head>
+<body>
+    
+    <div class="marcador-puntos-superior">
+        ❤️ <span id="marcador-pts">0 Pts</span>
+    </div>
+
+    <div class="contenedor-principal">
+        <h2 class="subtitulo-fijo">¡Sé el Cajero del Almacén!</h2>
+
+        <h1 id="texto-karaoke" class="titulo-karaoke-cajero">
+            <span class="palabra-normal">¡Súper</span>
+            <span class="palabra-normal">desafío</span>
+            <span class="palabra-normal">final!</span>
+            <span class="palabra-normal">Debes</span>
+            <span class="palabra-normal">pagar</span>
+            <span class="palabra-normal">una</span>
+            <span class="palabra-normal">cuenta</span>
+            <span class="palabra-normal">de</span>
+            <span class="palabra-normal">exactamente</span>
+            <span class="palabra-normal">siete</span>
+            <span class="palabra-normal">mil</span>
+            <span class="palabra-normal">novecientos</span>
+            <span class="palabra-normal">treinta</span>
+            <span class="palabra-normal">y</span>
+            <span class="palabra-normal">cuatro</span>
+            <span class="palabra-normal">pesos</span>
+            <span class="palabra-normal">en</span>
+            <span class="palabra-normal">la</span>
+            <span class="palabra-normal">caja.</span>
+            <span class="palabra-normal">Arrastra</span>
+            <span class="palabra-normal">el</span>
+            <span class="palabra-normal">dinero</span>
+            <span class="palabra-normal">necesario.</span>
+        </h1>
+
+        <div class="pizarra-caja">
+            <div class="monto-total">Total a pagar: <span>$7.934</span></div>
+            <div class="monto-actual">Llevas pagado: <span id="suma-pago">$0</span></div>
+            
+            <div class="caja-receptora-billetes" id="zona-cajero">
+                📥 ARRASTRA EL DINERO AQUÍ
+            </div>
+        </div>
+
+        <p class="instruccion-banco">Tus Billetes Disponibles:</p>
+        <div class="banco-efectivo">
+            <div class="billete-chile b-5000" draggable="true" data-valor="5000">$5.000</div>
+            <div class="billete-chile b-2000" draggable="true" data-valor="2000">$2.000</div>
+            <div class="billete-chile b-1000" draggable="true" data-valor="1000">$1.000</div>
+        </div>
+
+        <p class="instruccion-banco">Tus Monedas Disponibles (puedes usarlas muchas veces):</p>
+        <div class="banco-efectivo">
+            <div class="moneda-chile m-500" draggable="true" data-valor="500">$500</div>
+            <div class="moneda-chile m-100" draggable="true" data-valor="100">$100</div>
+            <div class="moneda-chile m-50" draggable="true" data-valor="50">$50</div>
+            <div class="moneda-chile m-10" draggable="true" data-valor="10">$10</div>
+            <div class="moneda-chile m-5" draggable="true" data-valor="5">$5</div>
+            <div class="moneda-chile m-1" draggable="true" data-valor="1">$1</div>
+        </div>
+
+        <button id="btnReset" class="btn-limpiar-caja">Empezar de nuevo 🔄</button>
+
+        <button id="btnSig" class="btn-accion-sgte" style="display:none;">
+            ¡Terminar Juego! 🎉
+        </button>
+    </div>
+
+</body>
+</html>

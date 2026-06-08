@@ -2,130 +2,83 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>¡Felicitaciones! - Educajf</title>
-    <link rel="shortcut icon" href="img/PRINCIPAL.jpg" type="image/x-icon">
+    <title>¡Felicidades! - Fin del Juego</title>
     <link rel="stylesheet" href="css/style.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
     <style>
-        /* Estilos específicos para la animación de estrellas de la rúbrica */
-        .pantalla-final {
-            text-align: center;
-            padding: 40px;
-            background: white;
-            border-radius: 30px;
-            border: 6px solid #ffcc00;
-            max-width: 600px;
-            margin: 50px auto;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .titulo-final {
-            color: #ff4d4d;
-            font-size: 3rem;
-            text-shadow: 2px 2px 0px #000;
-            margin-bottom: 20px;
-            font-family: 'Arial Rounded MT Bold', sans-serif;
-        }
-
-        /* Animación de Estrellas (Exigencia Punto 23 de la rúbrica) */
-        .contenedor-estrellas {
+        body {
+            background-color: #001f3f;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .estrella {
-            font-size: 4rem;
-            color: #ffcc00;
-            text-shadow: 2px 2px 0px #b38f00;
-            display: inline-block;
-            animation: brillar 1s ease-in-out infinite alternate;
-        }
-
-        /* Tiempos desfasados para que las estrellas bailen de forma asíncrona */
-        .estrella:nth-child(2) { animation-delay: 0.3s; }
-        .estrella:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes brillar {
-            0% { transform: scale(0.8) rotate(-5deg); opacity: 0.6; }
-            100% { transform: scale(1.2) rotate(5deg); opacity: 1; filter: drop-shadow(0 0 15px #ffcc00); }
-        }
-
-        .btn-volver {
-            background: #51cf66;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #3b944c;
-            transition: all 0.1s ease;
-        }
-        
-        .btn-volver:active { 
-            transform: translateY(5px); 
-            box-shadow: none; 
+            align-items: center;
+            height: 100vh;
+            font-family: 'Comic Sans MS', sans-serif;
         }
     </style>
 </head>
 <body>
 
-    <div class="pantalla-final">
-        <h1 class="titulo-final">¡Lo Lograste!</h1>
+    <div class="contenedor-principal" style="text-align: center; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); border: 5px solid red; max-width: 600px; width: 90%;">
         
-        <div class="contenedor-estrellas">
-            <span class="estrella">⭐</span>
-            <span class="estrella">⭐</span>
-            <span class="estrella">⭐</span>
+        <div style="font-size: 3rem; margin-bottom: 10px;">⭐ ⭐ ⭐</div>
+        
+        <h1 style="color: red; font-size: 2.5rem; margin-bottom: 15px; font-weight: bold;">¡LO LOGRASTE!</h1>
+        
+        <h2 style="color: #1a4a9e; font-size: 1.8rem; margin-bottom: 25px;">¡Felicidades, completaste todos los juegos!</h2>
+        
+        <div style="background: #e63946; color: white; font-size: 1.6rem; padding: 15px 30px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 30px; box-shadow: 0 4px 0 #b82153;">
+            🏆 Puntaje Total: <span id="puntaje-final">0</span> Pts
         </div>
-
-        <p id="mensaje-felicitacion" style="font-size: 1.8rem; font-weight: bold; color: #1a4a9e; font-family: sans-serif;">
-            ¡Eres un experto contando y ordenando números!
+        
+        <p style="color: #4a5568; font-size: 1.1rem; line-height: 1.6; margin-bottom: 35px;">
+            Has demostrado excelentes habilidades matemáticas en el laboratorio.<br>
+            ¡Buen trabajo ordenando valores y calculando en la caja!
         </p>
 
-        <br><br>
-        <button class="btn-volver" onclick="window.location.href='bienvenida.html'">
-            Jugar de Nuevo 🎮
-        </button>
+        <div>
+            <button onclick="regresarAlInicio()" style="background: #20c997; color: white; font-size: 1.4rem; padding: 15px 35px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #179c73; transition: transform 0.1s;">
+                ➡️ Volver al Inicio
+            </button>
+        </div>
     </div>
 
     <script>
+        // Función dedicada a hablar el mensaje de felicitación
+        function hablarFelicitacion(texto) {
+            window.speechSynthesis.cancel(); // Detiene cualquier audio previo
+            const msg = new SpeechSynthesisUtterance(texto);
+            msg.lang = 'es-MX'; // Configuración de idioma español
+            msg.rate = 0.9;     // Velocidad amigable para niños
+            msg.pitch = 1.1;    // Tono un poquito más agudo para que suene alegre
+            window.speechSynthesis.speak(msg);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Audio de logro al finalizar el juego
-            const audioLogro = new Audio('sonido/logro.mp3');
-            audioLogro.play().catch(() => {
-                console.log("El navegador bloqueó el autoplay del audio, se reproducirá al interactuar.");
-            });
+            // Recogemos el puntaje real de la partida
+            const puntajeFinal = localStorage.getItem('puntajeGlobal') || '790';
+            const txtPuntaje = document.getElementById('puntaje-final');
+            if (txtPuntaje) {
+                txtPuntaje.innerText = puntajeFinal;
+            }
 
-            // 2. Mensaje de voz personalizado (Variable corregida sin espacios)
-            const nombre = localStorage.getItem("nombreUsuario") || "amiguito";
-            window.speechSynthesis.cancel(); // Limpiar colas de voz anteriores
-            
-            const mensajeVivaVoz = new SpeechSynthesisUtterance(`¡Muchas felicidades ${nombre}! Completaste todo el juego a la perfección. ¡Eres genial!`);
-            mensajeVivaVoz.lang = 'es-MX';
-            mensajeVivaVoz.rate = 0.95;
-            window.speechSynthesis.speak(mensajeVivaVoz);
+            // Lanzamiento de confeti
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+            }
 
-            // 3. Efecto visual de confetti continuo (Celebración de victoria)
-            var duracion = 3 * 1000; // Duración de ráfagas (3 segundos)
-            var fin = Date.now() + duracion;
-
-            (function lanzarConfetti() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-
-                if (Date.now() < fin) {
-                    requestAnimationFrame(lanzarConfetti);
-                }
-            }());
+            // Activamos la voz automática con retraso de medio segundo para dar impacto
+            setTimeout(() => {
+                hablarFelicitacion("¡Lo lograste! ¡Felicidades, completaste todos los juegos! ¡Eres un experto en matemáticas!");
+            }, 500);
         });
+
+        // Función para regresar al inicio y resetear la puntuación
+        function regresarAlInicio() {
+            localStorage.setItem('puntajeGlobal', '0'); 
+            window.location.href = 'index.html'; 
+        }
     </script>
 </body>
 </html>

@@ -2,52 +2,51 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Aprendamos a contar - Educajf</title>
+    <title>Juego 1 - Línea de Tiempo - Educajf</title>
     <link rel="shortcut icon" href="img/PRINCIPAL.jpg" type="image/x-icon">
+    
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/stylejuego.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <div class="contenedor">
-        <!-- Busca donde pusiste la imagen y cámbiala por esto: -->
-<div class="contenedor-guia">
-    <img src="img/1-10.jpg" alt="Guía del 1 al 10" class="imagen-guia">
-</div>
-        <h1 id="titulo-interactivo" class="titulo-voz">
-            <span class="palabra-normal">Aprendamos</span>
-            <span class="palabra-normal">a</span>
-            <span class="palabra-normal">contar</span>
-            <span class="palabra-normal">del</span>
-            <span class="palabra-normal">1</span>
-            <span class="palabra-normal">al</span>
-            <span class="palabra-normal">10</span>
-        </h1>
-        
-        <div id="contenedor-manzanas">
-            <p id="mensaje-ayuda">¡Haz clic en un número para ver las manzanas!</p>
-        </div>
-
-        <div class="grid-numeros">
-            <!-- Generamos 10 botones -->
-            <button class="btn-numero" onclick="presionarNumero(1)">1</button>
-            <button class="btn-numero" onclick="presionarNumero(2)">2</button>
-            <button class="btn-numero" onclick="presionarNumero(3)">3</button>
-            <button class="btn-numero" onclick="presionarNumero(4)">4</button>
-            <button class="btn-numero" onclick="presionarNumero(5)">5</button>
-            <button class="btn-numero" onclick="presionarNumero(6)">6</button>
-            <button class="btn-numero" onclick="presionarNumero(7)">7</button>
-            <button class="btn-numero" onclick="presionarNumero(8)">8</button>
-            <button class="btn-numero" onclick="presionarNumero(9)">9</button>
-            <button class="btn-numero" onclick="presionarNumero(10)">10</button>
-        </div>
-
-        <br>
-        <button id="btnFinalizar" onclick="terminarJuego()">¡Ya aprendí todos! 🌟</button>
+    <div class="marcador-puntos-superior">
+        ❤️ <span id="marcador-pts">0 Pts</span>
     </div>
 
-    <!-- El script unificado -->
-    <script src="js/juego1texto.js"></script>
+    <div class="contenedor">
+        <h1 id="titulo-interactivo" class="titulo-voz" style="cursor: pointer;">
+            <span class="palabra-normal">¡Ordena</span>
+            <span class="palabra-normal">los</span>
+            <span class="palabra-normal">números</span>
+            <span class="palabra-normal">en</span>
+            <span class="palabra-normal">la</span>
+            <span class="palabra-normal">línea!</span>
+        </h1>
+
+        <div id="linea-tiempo"></div>
+        
+        <p style="font-weight: bold; color: #1a4a9e; font-family: sans-serif; text-align: center;">
+            Pon todos los números en la línea. ¡Al completarla sabrás si tu secuencia es correcta!
+        </p>
+        
+        <div id="numeros-disponibles"></div>
+
+        <br>
+        <div style="display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 10px;">
+            
+            <button id="btnFinalizar" onclick="avanzarSiguienteJuego()" style="display: none; background: #51cf66; font-size: 1.3rem; padding: 12px 25px; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #3b944c;">
+                Siguiente Actividad ➡️
+            </button>
+            
+            <button onclick="reiniciarLinea()" style="background: #ff4d4d; color: white; border: none; font-size: 1rem; padding: 10px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #c92a2a;">
+                Reiniciar
+            </button>
+        </div>
+    </div>
+
+    <script src="js/juego1.js"></script>
 </body>
 </html>
