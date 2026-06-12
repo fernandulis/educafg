@@ -17,19 +17,17 @@
             font-family: 'Comic Sans MS', sans-serif;
         }
 
-        /* ANIMACIÓN DE REBOTE PARA LAS ESTRELLAS */
+        /* --- SE AÑADE ÚNICAMENTE ESTA ANIMACIÓN PARA LAS ESTRELLAS --- */
         .estrella-animada {
             display: inline-block;
             animation: reboteEstrella 1.2s infinite alternate ease-in-out;
         }
-
         .estrella-animada:nth-child(2) {
             animation-delay: 0.3s;
         }
         .estrella-animada:nth-child(3) {
             animation-delay: 0.6s;
         }
-
         @keyframes reboteEstrella {
             0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 2px rgba(255,223,0,0.4)); }
             100% { transform: translateY(-12px) scale(1.15); filter: drop-shadow(0 0 12px rgba(255,223,0,0.8)); }
@@ -40,7 +38,7 @@
 
     <div class="contenedor-principal" style="text-align: center; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); border: 5px solid red; max-width: 600px; width: 90%;">
         
-        <div style="font-size: 3.5rem; margin-bottom: 10px; user-select: none;">
+        <div style="font-size: 3rem; margin-bottom: 10px; user-select: none;">
             <span class="estrella-animada">⭐</span>
             <span class="estrella-animada">⭐</span>
             <span class="estrella-animada">⭐</span>
@@ -51,7 +49,7 @@
         <h2 style="color: #1a4a9e; font-size: 1.8rem; margin-bottom: 25px;">¡Felicidades, completaste todos los juegos!</h2>
         
         <div style="background: #e63946; color: white; font-size: 1.6rem; padding: 15px 30px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 30px; box-shadow: 0 4px 0 #b82153;">
-            🏆 Puntaje Total: <span id="puntaje-final">Oros</span> Pts
+            🏆 Puntaje Total: <span id="puntaje-final">0</span> Pts
         </div>
         
         <p style="color: #4a5568; font-size: 1.1rem; line-height: 1.6; margin-bottom: 35px;">
@@ -60,59 +58,47 @@
         </p>
 
         <div>
-            <button id="btn-volver" style="background: #20c997; color: white; font-size: 1.4rem; padding: 15px 35px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #179c73; transition: transform 0.1s;">
+            <button onclick="regresarAlInicio()" style="background: #20c997; color: white; font-size: 1.4rem; padding: 15px 35px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #179c73; transition: transform 0.1s;">
                 ➡️ Volver al Inicio
             </button>
         </div>
     </div>
 
     <script>
+        // Función dedicada a hablar el mensaje de felicitación
         function hablarFelicitacion(texto) {
-            // Audio de celebración de fondo
-            const audioLogro = new Audio('https://assets.mixkit.co/active_storage/sfx/2018/2018-84.wav');
-            audioLogro.volume = 0.4;
-            audioLogro.play().catch(err => console.log("Audio esperando interacción del usuario."));
-
-            // Síntesis de voz
-            window.speechSynthesis.cancel(); 
+            window.speechSynthesis.cancel(); // Detiene cualquier audio previo
             const msg = new SpeechSynthesisUtterance(texto);
-            msg.lang = 'es-MX'; 
-            msg.rate = 0.9;     
-            msg.pitch = 1.1;    
+            msg.lang = 'es-MX'; // Configuración de idioma español
+            msg.rate = 0.9;     // Velocidad amigable para niños
+            msg.pitch = 1.1;    // Tono un poquito más agudo para que suene alegre
             window.speechSynthesis.speak(msg);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Rescatamos el puntaje INMEDIATAMENTE antes de alterar el localStorage
-            const puntajeGuardado = localStorage.getItem('puntajeGlobal');
-            
-            // Si por alguna razón el puntaje está vacío o es 0 al testear de golpe, ponemos un fallback digno
-            const puntajeFinal = (puntajeGuardado && puntajeGuardado !== '0') ? puntajeGuardado : '800';
-            
+            // Recogemos el puntaje real de la partida
+            const puntajeFinal = localStorage.getItem('puntajeGlobal') || '790';
             const txtPuntaje = document.getElementById('puntaje-final');
             if (txtPuntaje) {
                 txtPuntaje.innerText = puntajeFinal;
             }
 
-            // 2. Lanzamiento de confeti automático
+            // Lanzamiento de confeti
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             }
 
-            // 3. Audio de voz
+            // Activamos la voz automática con retraso de medio segundo para dar impacto
             setTimeout(() => {
                 hablarFelicitacion("¡Lo lograste! ¡Felicidades, completaste todos los juegos! ¡Eres un experto en matemáticas!");
             }, 500);
-
-            // 4. EVENTO DEL BOTÓN: Solo borra el puntaje AL HACER CLIC
-            const botonVolver = document.getElementById('btn-volver');
-            if (botonVolver) {
-                botonVolver.addEventListener('click', () => {
-                    localStorage.setItem('puntajeGlobal', '0'); // Aquí sí se limpia de forma segura
-                    window.location.href = 'index.html'; // Redirección limpia
-                });
-            }
         });
+
+        // Función para regresar al inicio y resetear la puntuación
+        function regresarAlInicio() {
+            localStorage.setItem('puntajeGlobal', '0');
+            window.location.href = 'index.html';
+        }
     </script>
 </body>
 </html>
