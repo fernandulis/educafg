@@ -23,7 +23,6 @@
             animation: reboteEstrella 1.2s infinite alternate ease-in-out;
         }
 
-        /* Descalzamos los tiempos para que el movimiento sea asíncrono y natural */
         .estrella-animada:nth-child(2) {
             animation-delay: 0.3s;
         }
@@ -52,7 +51,7 @@
         <h2 style="color: #1a4a9e; font-size: 1.8rem; margin-bottom: 25px;">¡Felicidades, completaste todos los juegos!</h2>
         
         <div style="background: #e63946; color: white; font-size: 1.6rem; padding: 15px 30px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 30px; box-shadow: 0 4px 0 #b82153;">
-            🏆 Puntaje Total: <span id="puntaje-final">0</span> Pts
+            🏆 Puntaje Total: <span id="puntaje-final">Oros</span> Pts
         </div>
         
         <p style="color: #4a5568; font-size: 1.1rem; line-height: 1.6; margin-bottom: 35px;">
@@ -61,21 +60,20 @@
         </p>
 
         <div>
-            <button onclick="regresarAlInicio()" style="background: #20c997; color: white; font-size: 1.4rem; padding: 15px 35px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #179c73; transition: transform 0.1s;">
+            <button id="btn-volver" style="background: #20c997; color: white; font-size: 1.4rem; padding: 15px 35px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 0 #179c73; transition: transform 0.1s;">
                 ➡️ Volver al Inicio
             </button>
         </div>
     </div>
 
     <script>
-        // Función para ejecutar el mensaje por voz y el efecto de sonido melódico simultáneamente
         function hablarFelicitacion(texto) {
-            // Efecto de sonido corto de campanas/celebración de fondo
+            // Audio de celebración de fondo
             const audioLogro = new Audio('https://assets.mixkit.co/active_storage/sfx/2018/2018-84.wav');
             audioLogro.volume = 0.4;
-            audioLogro.play().catch(err => console.log("Se requiere interacción previa en el DOM para reproducir audio"));
+            audioLogro.play().catch(err => console.log("Audio esperando interacción del usuario."));
 
-            // Motor de síntesis de voz del navegador
+            // Síntesis de voz
             window.speechSynthesis.cancel(); 
             const msg = new SpeechSynthesisUtterance(texto);
             msg.lang = 'es-MX'; 
@@ -85,22 +83,36 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Extrae la puntuación global guardada o muestra la última registrada en las capturas por si acaso
-            const puntajeFinal = localStorage.getItem('puntajeGlobal') || '800';
+            // 1. Rescatamos el puntaje INMEDIATAMENTE antes de alterar el localStorage
+            const puntajeGuardado = localStorage.getItem('puntajeGlobal');
+            
+            // Si por alguna razón el puntaje está vacío o es 0 al testear de golpe, ponemos un fallback digno
+            const puntajeFinal = (puntajeGuardado && puntajeGuardado !== '0') ? puntajeGuardado : '800';
+            
             const txtPuntaje = document.getElementById('puntaje-final');
             if (txtPuntaje) {
                 txtPuntaje.innerText = puntajeFinal;
             }
 
-            // Disparo instantáneo del efecto visual de confeti
+            // 2. Lanzamiento de confeti automático
             if (typeof confetti === 'function') {
                 confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             }
 
-            // Retraso de medio segundo para que se ejecute la pista de audio y la voz limpia
+            // 3. Audio de voz
             setTimeout(() => {
                 hablarFelicitacion("¡Lo lograste! ¡Felicidades, completaste todos los juegos! ¡Eres un experto en matemáticas!");
             }, 500);
-        });
 
-        // Función encargada de limpiar la mochila de puntos globales y redirigir
+            // 4. EVENTO DEL BOTÓN: Solo borra el puntaje AL HACER CLIC
+            const botonVolver = document.getElementById('btn-volver');
+            if (botonVolver) {
+                botonVolver.addEventListener('click', () => {
+                    localStorage.setItem('puntajeGlobal', '0'); // Aquí sí se limpia de forma segura
+                    window.location.href = 'index.html'; // Redirección limpia
+                });
+            }
+        });
+    </script>
+</body>
+</html>
